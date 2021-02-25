@@ -106,6 +106,15 @@ const supportDynamicPublicPathPrefix = () => (config) => {
   return config
 }
 
+const addSourceMap = () => (config) => {
+  if (isBuildAsDevServer()) {
+    config.devtool = 'cheap-module-eval-source-map'
+  } else {
+    config.devtool = 'none'
+  }
+  return config
+}
+
 module.exports = override(
   fixBabelImports('import', {
     libraryName: 'antd',
@@ -152,5 +161,6 @@ module.exports = override(
   ),
   disableMinimizeByEnv(),
   addExtraEntries(),
-  supportDynamicPublicPathPrefix()
+  supportDynamicPublicPathPrefix(),
+  addSourceMap()
 )
